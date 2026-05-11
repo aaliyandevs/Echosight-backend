@@ -1,0 +1,7 @@
+
+> echosight-backend@0.1.0 dev
+> tsx watch src/server.ts
+
+5:46:58 PM [tsx] change in ./src\config.ts Rerunning...
+c5:47:12 PM [tsx] change in ./src\services\sound\detect-sound-service.ts Rerunning...
+c
