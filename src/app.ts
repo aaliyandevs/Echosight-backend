@@ -13,6 +13,8 @@ import { detectSoundRouter } from "./routes/detect-sound";
 import { healthRouter } from "./routes/health";
 import { v1Router } from "./routes/v1";
 
+const { soundLogRouter } = require("../routes/soundLog");
+
 export const createApp = () => {
   const app = express();
   const allowAnyOrigin = corsOrigins.includes("*");
@@ -39,6 +41,7 @@ export const createApp = () => {
   app.use(healthRouter);
   app.use("/auth", authRouter);
   app.use(detectSoundRouter);
+  app.use(soundLogRouter);
   app.use(
     "/v1",
     requireUserId,
