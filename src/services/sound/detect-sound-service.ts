@@ -1,6 +1,6 @@
 import { getDb } from "../../db/mongo";
 import { env } from "../../config";
-import { decodeAndPreprocessAudio } from "./audio-preprocess";
+import { calculateRms, decodeAndPreprocessAudio } from "./audio-preprocess";
 import { isNameInTranscript } from "./name-matcher";
 import { soundClassifier } from "./sound-classifier";
 import { estimateDirection, estimateDistance } from "./spatial-estimation";
@@ -19,6 +19,29 @@ type AlertDecision = {
   alert?: string;
   alertCode?: "EMERGENCY" | "HIGH" | "MEDIUM";
   alertPriority?: "emergency" | "high" | "medium";
+};
+
+const distanceLabelToMeters = (distance: "5m" | "10-15m" | "20m+"): number => {
+  if (distance === "5m") {
+    return 5;
+  }
+  if (distance === "10-15m") {
+    return 12;
+  }
+  return 25;
+};
+
+const directionLabelToAngle = (direction: "Left" | "Right" | "Front" | "Back"): number => {
+  if (direction === "Left") {
+    return 270;
+  }
+  if (direction === "Right") {
+    return 90;
+  }
+  if (direction === "Back") {
+    return 180;
+  }
+  return 0;
 };
 
 class DetectSoundService {
@@ -53,6 +76,7 @@ class DetectSoundService {
     const classified = await soundClassifier.classify(audio.mono);
     const direction = estimateDirection(audio);
     const distance = estimateDistance(audio);
+    const rms = calculateRms(audio.mono);
 
     let isUserNameDetected = false;
     let alertDecision: AlertDecision = {
@@ -90,8 +114,12 @@ class DetectSoundService {
       label: classified.label,
       category: classified.category,
       confidence: clampConfidence(classified.confidence),
+      rms: Number(Math.max(0, Math.min(1, rms)).toFixed(4)),
+      timestamp: Date.now(),
       direction,
       distance,
+      distanceMeters: distanceLabelToMeters(distance),
+      directionAngle: directionLabelToAngle(direction),
       isUserNameDetected,
       shouldAlert: alertDecision.shouldAlert,
       ...(classified.model ? { model: classified.model } : {}),

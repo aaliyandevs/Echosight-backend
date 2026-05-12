@@ -18,8 +18,12 @@ export type DetectSoundResult = {
   label: string;
   category: SoundCategory;
   confidence: number;
+  rms: number;
+  timestamp: number;
   direction: DirectionLabel;
   distance: DistanceLabel;
+  distanceMeters: number;
+  directionAngle: number;
   isUserNameDetected: boolean;
   alert?: string;
   alertCode?: "EMERGENCY" | "HIGH" | "MEDIUM";
