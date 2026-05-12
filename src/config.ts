@@ -28,7 +28,8 @@ const envSchema = z.object({
   YAMNET_MODEL_URL: z
     .string()
     .default("https://tfhub.dev/google/tfjs-model/yamnet/tfjs/1"),
-  YAMNET_CLASS_MAP_PATH: z.string().optional(),
+  YAMNET_CLASS_MAP_PATH: z.string().default("assets/yamnet_class_map.csv"),
+  YAMNET_TOP_K: z.coerce.number().int().min(1).max(10).default(5),
   STT_MODE: z.enum(["mock", "whisper_cpp", "disabled"]).default("mock"),
   WHISPER_CPP_COMMAND: z.string().optional(),
   STT_EXEC_TIMEOUT_MS: z.coerce.number().int().positive().default(12_000),
@@ -78,7 +79,8 @@ const fallbackEnv: z.infer<typeof envSchema> = {
   WEBRTC_TURN_CREDENTIAL: undefined,
   SOUND_CLASSIFIER_MODE: "mock",
   YAMNET_MODEL_URL: "https://tfhub.dev/google/tfjs-model/yamnet/tfjs/1",
-  YAMNET_CLASS_MAP_PATH: undefined,
+  YAMNET_CLASS_MAP_PATH: "assets/yamnet_class_map.csv",
+  YAMNET_TOP_K: 5,
   STT_MODE: "mock",
   WHISPER_CPP_COMMAND: undefined,
   STT_EXEC_TIMEOUT_MS: 12_000,

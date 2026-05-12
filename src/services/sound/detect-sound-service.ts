@@ -94,6 +94,8 @@ class DetectSoundService {
       distance,
       isUserNameDetected,
       shouldAlert: alertDecision.shouldAlert,
+      ...(classified.model ? { model: classified.model } : {}),
+      ...(classified.topPredictions ? { topPredictions: classified.topPredictions } : {}),
       ...(alertDecision.alert ? { alert: alertDecision.alert } : {}),
       ...(alertDecision.alertCode ? { alertCode: alertDecision.alertCode } : {}),
       ...(alertDecision.alertPriority ? { alertPriority: alertDecision.alertPriority } : {}),

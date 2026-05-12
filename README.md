@@ -219,3 +219,15 @@ Run container:
 docker run --rm -p 8000:8000 --env-file backend/.env echosight-backend
 ```
 "# Echo_Sight" 
+## YAMNet sound classification
+
+Set `SOUND_CLASSIFIER_MODE=yamnet` to run TensorFlow.js YAMNet inference for `/detect-sound`.
+
+```env
+SOUND_CLASSIFIER_MODE=yamnet
+YAMNET_MODEL_URL=https://tfhub.dev/google/tfjs-model/yamnet/tfjs/1
+YAMNET_CLASS_MAP_PATH=assets/yamnet_class_map.csv
+YAMNET_TOP_K=5
+```
+
+The backend decodes incoming PCM WAV, converts it to mono 16 kHz float samples, pads short mobile chunks to the minimum YAMNet frame length, loads the TFJS graph model, averages frame-level class scores, and returns the top AudioSet label plus optional `topPredictions`. If the model cannot load or inference fails, the service logs the failure and falls back to the heuristic classifier so sound detection remains available.

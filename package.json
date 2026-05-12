@@ -10,10 +10,11 @@
     "build": "npm run clean && tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test tests/validators.test.ts tests/name-matcher.test.ts",
+    "test": "tsx --test tests/validators.test.ts tests/name-matcher.test.ts tests/yamnet-classifier.test.ts",
     "test:integration": "tsx --test tests/api.integration.test.ts"
   },
   "dependencies": {
+    "@tensorflow/tfjs": "^4.22.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",

@@ -25,12 +25,22 @@ export type DetectSoundResult = {
   alertCode?: "EMERGENCY" | "HIGH" | "MEDIUM";
   alertPriority?: "emergency" | "high" | "medium";
   shouldAlert: boolean;
+  model?: "heuristic" | "yamnet";
+  topPredictions?: Array<{
+    label: string;
+    confidence: number;
+  }>;
 };
 
 export type ClassifiedSound = {
   label: string;
   category: SoundCategory;
   confidence: number;
+  model?: "heuristic" | "yamnet";
+  topPredictions?: Array<{
+    label: string;
+    confidence: number;
+  }>;
 };
 
 export type DecodedAudio = {

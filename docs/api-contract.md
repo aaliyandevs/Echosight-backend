@@ -217,7 +217,15 @@ Response `200` data:
   "confidence": 0.92,
   "direction": "Right",
   "distance": "10-15m",
-  "isUserNameDetected": false
+  "isUserNameDetected": false,
+  "shouldAlert": true,
+  "model": "yamnet",
+  "topPredictions": [
+    {
+      "label": "Siren",
+      "confidence": 0.92
+    }
+  ]
 }
 ```
 
