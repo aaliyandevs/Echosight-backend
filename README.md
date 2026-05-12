@@ -41,7 +41,7 @@ USER_NAME_CACHE_TTL_MS=60000
 npm run dev
 ```
 
-API base URL: `http://localhost:8000`
+API base URL: `https://echosight-backend.vercel.app/`
 
 API contract:
 
@@ -156,33 +156,33 @@ Write endpoints support basic rate limiting and return standard rate limit heade
 ## 6) Quick test examples (Windows PowerShell)
 
 ```powershell
-curl -X PUT "http://localhost:8000/v1/users/me" `
+curl -X PUT "https://echosight-backend.vercel.app/v1/users/me" `
   -H "Content-Type: application/json" `
   -H "X-User-Id: demo-user" `
   -d "{\"name\":\"Shayan\"}"
 ```
 
 ```powershell
-curl -X POST "http://localhost:8000/detect-sound" `
+curl -X POST "https://echosight-backend.vercel.app/detect-sound" `
   -H "Content-Type: application/json" `
   -H "X-User-Id: demo-user" `
   -d "{\"audioBase64\":\"<base64-wav-chunk>\",\"speechHint\":\"Shayan are you there\"}"
 ```
 
 ```powershell
-curl -X GET "http://localhost:8000/v1/profiles/me" `
+curl -X GET "https://echosight-backend.vercel.app/v1/profiles/me" `
   -H "X-User-Id: demo-user"
 ```
 
 ```powershell
-curl -X PUT "http://localhost:8000/v1/profiles/me" `
+curl -X PUT "https://echosight-backend.vercel.app/v1/profiles/me" `
   -H "Content-Type: application/json" `
   -H "X-User-Id: demo-user" `
   -d "{\"monitored_sounds\":[\"siren\",\"horn\"],\"priority_overrides\":{\"siren\":\"emergency\"},\"haptic_patterns\":{\"siren\":\"long_pulse\"},\"sensitivity\":0.7}"
 ```
 
 ```powershell
-curl -X POST "http://localhost:8000/v1/events/batch" `
+curl -X POST "https://echosight-backend.vercel.app/v1/events/batch" `
   -H "Content-Type: application/json" `
   -H "X-User-Id: demo-user" `
   -H "Idempotency-Key: event-upload-001" `
@@ -190,7 +190,7 @@ curl -X POST "http://localhost:8000/v1/events/batch" `
 ```
 
 ```powershell
-curl -X POST "http://localhost:8000/v1/ai/classify" `
+curl -X POST "https://echosight-backend.vercel.app/v1/ai/classify" `
   -H "Content-Type: application/json" `
   -H "X-User-Id: demo-user" `
   -d "{\"hint\":\"traffic noise\",\"device_id\":\"pixel-8\"}"

@@ -47,6 +47,18 @@ const ensureIndexes = async (): Promise<void> => {
     .collection("users")
     .createIndex({ email: 1 }, { unique: true, sparse: true });
   await database
+    .collection("refresh_tokens")
+    .createIndex({ token_hash: 1 }, { unique: true });
+  await database
+    .collection("refresh_tokens")
+    .createIndex({ user_id: 1, expires_at: 1 });
+  await database.collection("refresh_tokens").createIndex(
+    { expires_at: 1 },
+    {
+      expireAfterSeconds: 0,
+    }
+  );
+  await database
     .collection("devices")
     .createIndex({ user_id: 1, device_id: 1 }, { unique: true });
   await database

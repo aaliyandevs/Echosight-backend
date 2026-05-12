@@ -2,7 +2,7 @@
 
 Base URL:
 
-- `http://localhost:8000`
+- `https://echosight-backend.vercel.app/`
 
 Auth:
 
@@ -10,6 +10,71 @@ Auth:
 - Header mode (`AUTH_MODE=header`): `X-User-Id: <string>`
 - JWT mode (`AUTH_MODE=jwt`): `Authorization: Bearer <token>`
 - JWT claim used as user identity: `sub` (fallback: `user_id`, `uid`)
+
+### `POST /auth/register`
+
+Body:
+
+```json
+{
+  "name": "Shayan",
+  "email": "user@example.com",
+  "password": "strong-password"
+}
+```
+
+Response `201` data:
+
+```json
+{
+  "accessToken": "<jwt>",
+  "refreshToken": "<opaque-refresh-token>",
+  "expiresIn": 900,
+  "tokenType": "Bearer",
+  "user": {
+    "user_id": "uuid",
+    "email": "user@example.com",
+    "name": "Shayan"
+  }
+}
+```
+
+### `POST /auth/login`
+
+Body:
+
+```json
+{
+  "email": "user@example.com",
+  "password": "strong-password"
+}
+```
+
+Response `200`: same token payload as register.
+
+### `POST /auth/refresh`
+
+Body:
+
+```json
+{
+  "refreshToken": "<opaque-refresh-token>"
+}
+```
+
+Response `200`: rotated token pair. The submitted refresh token is revoked.
+
+### `POST /auth/logout`
+
+Body:
+
+```json
+{
+  "refreshToken": "<opaque-refresh-token>"
+}
+```
+
+Response `200`: refresh token revoked when present.
 
 Content type:
 

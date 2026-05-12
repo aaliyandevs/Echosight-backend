@@ -8,16 +8,8 @@ export const requireUserId = (
   res: Response,
   next: NextFunction
 ): void => {
-  if (env.AUTH_MODE === "jwt") {
-    const authHeader = req.header("Authorization");
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      sendError(res, 401, "Please sign in to continue.", {
-        code: "AUTH_REQUIRED",
-        hint: "A valid Bearer token is required.",
-      });
-      return;
-    }
-
+  const authHeader = req.header("Authorization");
+  if (authHeader?.startsWith("Bearer ") && env.JWT_SECRET) {
     const token = authHeader.slice("Bearer ".length).trim();
 
     try {
@@ -47,6 +39,14 @@ export const requireUserId = (
       });
       return;
     }
+  }
+
+  if (env.AUTH_MODE === "jwt") {
+    sendError(res, 401, "Please sign in to continue.", {
+      code: "AUTH_REQUIRED",
+      hint: "A valid Bearer token is required.",
+    });
+    return;
   }
 
   const userId = req.header("X-User-Id");

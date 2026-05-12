@@ -8,6 +8,7 @@ import { sendError, zodToFieldErrors } from "./http/api";
 import { requireUserId } from "./middleware/auth";
 import { createRateLimiter } from "./middleware/rateLimit";
 import { attachRequestId } from "./middleware/requestId";
+import { authRouter } from "./routes/auth";
 import { detectSoundRouter } from "./routes/detect-sound";
 import { healthRouter } from "./routes/health";
 import { v1Router } from "./routes/v1";
@@ -36,6 +37,7 @@ export const createApp = () => {
   app.use(morgan(":method :url :status :response-time ms req_id=:request_id"));
 
   app.use(healthRouter);
+  app.use("/auth", authRouter);
   app.use(detectSoundRouter);
   app.use(
     "/v1",

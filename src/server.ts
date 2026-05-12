@@ -1,6 +1,7 @@
 import { createApp } from "./app";
 import { configValidation, env } from "./config";
 import { closeMongo, connectToMongo } from "./db/mongo";
+import { attachRealtimeServer } from "./realtime";
 import { detectSoundService } from "./services/sound/detect-sound-service";
 
 const app = createApp();
@@ -26,8 +27,9 @@ if (process.env.NODE_ENV !== "production") {
     void detectSoundService.warmup();
 
     const server = app.listen(env.PORT, () => {
-      console.log(`EchoSight backend listening on http://localhost:${env.PORT}`);
+      console.log(`EchoSight backend listening on port ${env.PORT}`);
     });
+    attachRealtimeServer(server);
 
     let shuttingDown = false;
     const shutdown = async () => {
